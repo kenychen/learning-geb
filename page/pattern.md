@@ -9,11 +9,27 @@ Page有三個靜態屬性
 除了這三個區塊外，你還可以額外自定物件的方法。
 
 ```groovy
-import geb.*
+class LoginSpec extends GebReportingSpec{
+
+    def setup() {
+        to LoginPage
+    }
+
+    def "login"(){
+        when:
+        login('xxx@yyy.com', '11111111')
+
+        then:
+        true
+    }
+}
 
 class LoginPage extends Page {
-    static url = "/login"
+
     static at = { title == "Login Page" }
+
+    static url = "login.html"
+
     static content = {
         emailInput { $("input[name=account]") }
         passwordInput { $("input[name=password]") }
@@ -22,9 +38,10 @@ class LoginPage extends Page {
 
     // 自定物件方法
     void login(String account, String passowrd) {
-        emailInput.value('xxx@yyy.com')
-        passwordInput.value('xxxxxxxx')
+        emailInput.value(account)
+        passwordInput.value(passowrd)
         loginButton.click()
     }
 }
+
 ```
